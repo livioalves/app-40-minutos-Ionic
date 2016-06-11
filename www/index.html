@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title></title>
+
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+    <link href="css/ionic.app.css" rel="stylesheet">
+    -->
+
+    <!-- ionic/angularjs js -->
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+
+    <!-- cordova script (this will be a 404 during development) -->
+    <script src="cordova.js"></script>
+
+    <!-- your app's js -->
+    <script src="js/app.js"></script>
+  </head>
+  <body ng-app="starter" ng-controller="appTestCtrl">
+
+    <ion-pane>
+      <ion-header-bar class="bar-calm">
+        <h1 class="title">Financas</h1>
+        <button class="button button-calm" ng-click="abrir(true)"><i class="ion-plus"></i></button>
+      </ion-header-bar>
+      <ion-content>
+          <div ng-show="novo" class="">
+          
+              <div class="list list-inset">
+                      <label class=" item item-input ">
+                        <span class="input-label" aria-label="R$" id="_label-0">R$</span>
+                        <input type="number" placeholder="Valor R$" maxlength="20" ng-model="valor" class="">
+                      </label>
+                      <label class=" item item-input">
+                        <span class="input-label" aria-label="Categoria" id="_label-1">Categoria</span>
+                        <input type="text" placeholder="Categoria" maxlength="20" ng-model="novaCategoria" class="">
+                      </label>
+                </div>
+                <div class="list list-inset">
+                <div ng-repeat="categoria in categorias" class="padding-left padding-bottom padding-right" style="float:left;">
+                    <button class="button  button-outline  button-balanced ng-binding" ng-click="Incluir(categoria, valor, novaCategoria)">
+                        {{categoria}}
+                    </button>
+                </div><!-- end ngRepeat: categoria in categorias -->    
+                <button class="button button-assertive" ng-click="abrir(false)">Fechar</button>
+                  </div>
+          </div>      
+          <div class="list">
+              <label class="item item-select">
+                <div class="input-label">
+                  Categoria
+                </div>
+                <select ng-model="categoria">
+                  <option ng-repeat="categoria in categorias">{{categoria}}</option>
+                </select>
+                
+              </label>
+        
+            </div>
+              <ion-list show-delete="false" can-swipe="true">
+                <ion-item ng-show="despesa.categoria == categoria" ng-repeat="despesa in despesas" href="#">
+                    
+                     <ul class="row">
+                        <li class="col">{{despesa.data | date:&apos;dd/MM/yyyy&apos;}}</li>
+                        <li class="col">&#xA0;</li>
+                        <li class="col" style="text-align: right;">R$ {{despesa.valor}}</li>
+                    </ul>
+                    <ion-option-button class="button-assertive icon ion-trash-a" ng-click="apagar($index)">
+                    </ion-option-button>
+                    
+                </ion-item>
+            </ion-list>
+            <div class="list">
+                <div class="item item-divider">Total categoria</div>
+                <div class="item">R$ {{despesas | sumOfValue:&apos;valor&apos;:&apos;categoria&apos;:categoria }}</div>
+                <div class="item item-divider">Total geral</div>
+                <div class="item">Total R$ {{despesas | sumOfValue:&apos;valor&apos;}}</div>
+            </div>
+              
+            
+          
+          
+          
+      </ion-content>
+    </ion-pane>
+  </body>
+</html>
